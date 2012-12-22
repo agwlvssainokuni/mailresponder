@@ -1,0 +1,24 @@
+--- tmail-1.2.3/lib/tmail/parser.y	2008-02-14 17:07:22.000000000 +0900
++++ tmail_parser.y	2012-03-20 09:20:54.000000000 +0900
+@@ -208,7 +208,7 @@
+             | local            { Address.new( val[0], nil ) }
+   
+   local: local_head
+-       | local_head '.' { val[0].push ''; val[0] }
++       | local_head dots { (val[1] + 1).times { val[0].push '' }; val[0] }
+ 
+   local_head: word
+                 { val }
+@@ -232,8 +232,10 @@
+                   val[0]
+                 }
+ 
+-  dots      : '.'     { 0 }
+-            | '.' '.' { 1 }
++  dot_repeat : '.'
++             | dot_repeat '.' { val[0] + val[1] }
++
++  dots      : dot_repeat     { val[0].size - 1 }
+ 
+   word      : atom
+             | QUOTED
