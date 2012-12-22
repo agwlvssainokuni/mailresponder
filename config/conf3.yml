@@ -1,0 +1,5 @@
+subject: タイトル３
+template: template3
+from: postmaster
+bcc:
+ - root
